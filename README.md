@@ -305,11 +305,6 @@ Contributions are welcome! Please follow these steps:
 
 This project is licensed under the MIT License.
 
-## 📞 Support
-
-For support, please contact:
-- Email: info@nayepankh.org
-- Issues: [GitHub Issues](https://github.com/your-repo/issues)
 
 ## 🙏 Acknowledgments
 
