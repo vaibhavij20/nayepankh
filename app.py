@@ -68,7 +68,8 @@ try:
     logger.info("Database initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize database: {e}")
-    st.error("Failed to initialize database. Please check the logs.")
+    st.error(f"Failed to initialize database: {str(e)}")
+    st.warning("The application will continue with limited functionality.")
 
 # ==================================
 # SESSION STATE
@@ -115,7 +116,8 @@ try:
 except Exception as e:
     logger.error(f"Failed to configure Gemini API: {e}")
     st.sidebar.error(f"Failed to configure Gemini API: {e}")
-    st.stop()
+    st.sidebar.warning("Chat functionality will be disabled. Please check your API key.")
+    model = None
 
 # ==================================
 # SIDEBAR NAVIGATION
@@ -310,6 +312,11 @@ if page == "Admin Dashboard":
 # CHAT HISTORY
 # ==================================
 
+# Clear chat history on page refresh to prevent duplicate messages
+if "chat_initialized" not in st.session_state:
+    st.session_state.messages = []
+    st.session_state.chat_initialized = True
+
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
@@ -322,6 +329,11 @@ query = st.chat_input("Ask NayePankh AI Assistant...")
 
 if query:
     try:
+        # Check if model is available
+        if model is None:
+            st.error("Chat functionality is not available. Please configure a valid Gemini API key.")
+            st.stop()
+        
         # Validate query
         validate_query(query)
         sanitized_query = sanitize_input(query)

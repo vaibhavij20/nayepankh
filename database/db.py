@@ -41,6 +41,11 @@ def init_db() -> None:
     Creates tables if they don't exist and adds necessary indexes.
     """
     try:
+        # Ensure the database directory exists
+        db_path = Config.DATABASE_PATH
+        db_dir = db_path.parent
+        db_dir.mkdir(parents=True, exist_ok=True)
+        
         with get_db_connection() as conn:
             cursor = conn.cursor()
             
