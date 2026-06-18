@@ -4,7 +4,7 @@
 streamlit==1.39.0
 
 # AI/ML
-google-genai==0.3.0
+google-genai>=0.3.0
 chromadb==1.5.9
 
 # Database
