@@ -22,7 +22,14 @@ from database.db import (
 from agents.router_agent import route_query
 from agents.mentor_agent import match_mentor
 from agents.report_agent import generate_report
-from memory_manager import memory_manager
+
+# Memory manager (optional - may not be available on all deployments)
+try:
+    from memory_manager import memory_manager
+    MEMORY_AVAILABLE = True
+except ImportError:
+    MEMORY_AVAILABLE = False
+    memory_manager = None
 from config import Config
 from logger import get_logger
 from utils.validators import (
@@ -240,8 +247,12 @@ if page == "Admin Dashboard":
             st.metric("Unique Skills", skill_count)
 
         with col3:
-            memory_count = memory_manager.get_memory_count()
-            st.metric("Memory Entries", memory_count)
+            # Get memory count
+            if MEMORY_AVAILABLE and memory_manager:
+                memory_count = memory_manager.get_memory_count()
+                st.metric("Memory Entries", memory_count)
+            else:
+                st.metric("Memory Entries", "N/A")
 
         st.subheader("Volunteer Records")
 
@@ -365,12 +376,16 @@ if query:
         })
 
         try:
-            memory_manager.add_memory(sanitized_query)
+            if MEMORY_AVAILABLE and memory_manager:
+                memory_manager.add_memory(sanitized_query)
         except Exception as e:
             logger.warning(f"Memory addition failed: {e}")
 
         try:
-            memories = memory_manager.query_memory(sanitized_query, n_results=3)
+            if MEMORY_AVAILABLE and memory_manager:
+                memories = memory_manager.query_memory(sanitized_query, n_results=3)
+            else:
+                memories = []
         except Exception as e:
             logger.warning(f"Memory query failed: {e}")
             memories = []
