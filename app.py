@@ -162,8 +162,11 @@ if st.sidebar.button("Register Volunteer", use_container_width=True):
             
             # Send welcome email
             try:
-                send_welcome_email(sanitized_name, sanitized_email)
-                st.sidebar.success("✅ Volunteer Registered Successfully! Welcome email sent.")
+                email_sent = send_welcome_email(sanitized_name, sanitized_email)
+                if email_sent:
+                    st.sidebar.success("✅ Volunteer Registered Successfully! Welcome email sent.")
+                else:
+                    st.sidebar.success("✅ Volunteer Registered Successfully! (Email notification disabled - check API key)")
             except Exception as e:
                 logger.warning(f"Email failed: {e}")
                 st.sidebar.success("✅ Volunteer Registered Successfully! (Email notification failed)")
@@ -390,7 +393,7 @@ User Question: {sanitized_query}
                     response = client.models.generate_content(
                         model=model,
                         contents=prompt,
-                        config=genai.GenerateContentConfig(
+                        generation_config=genai.GenerationConfig(
                             temperature=Config.GEMINI_TEMPERATURE,
                             max_output_tokens=Config.GEMINI_MAX_TOKENS
                         )
