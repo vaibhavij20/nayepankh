@@ -13,7 +13,10 @@ import google.genai as genai
 from database.db import (
     init_db,
     add_volunteer,
-    get_all_volunteers
+    get_all_volunteers,
+    update_volunteer,
+    delete_volunteer,
+    get_volunteer_by_id
 )
 
 from agents.router_agent import (
@@ -160,16 +163,8 @@ if st.sidebar.button("Register Volunteer", use_container_width=True):
             # Add volunteer
             add_volunteer(sanitized_name, sanitized_email, sanitized_skills)
             
-            # Send welcome email
-            try:
-                email_sent = send_welcome_email(sanitized_name, sanitized_email)
-                if email_sent:
-                    st.sidebar.success("✅ Volunteer Registered Successfully! Welcome email sent.")
-                else:
-                    st.sidebar.success("✅ Volunteer Registered Successfully! (Email notification disabled - check API key)")
-            except Exception as e:
-                logger.warning(f"Email failed: {e}")
-                st.sidebar.success("✅ Volunteer Registered Successfully! (Email notification failed)")
+            # Email sending disabled for now
+            st.sidebar.success("✅ Volunteer Registered Successfully!")
         else:
             st.sidebar.error("❌ Please fill all required fields")
     except ValueError as e:
@@ -267,6 +262,48 @@ if page == "Admin Dashboard":
         
         if len(df) > 0:
             st.dataframe(df, use_container_width=True)
+            
+            # Volunteer Management
+            st.subheader("Volunteer Management")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.write("**Update Volunteer**")
+                volunteer_id = st.number_input("Volunteer ID", min_value=1, value=1)
+                volunteer = get_volunteer_by_id(volunteer_id)
+                
+                if volunteer:
+                    update_name = st.text_input("Name", value=volunteer['name'])
+                    update_email = st.text_input("Email", value=volunteer['email'])
+                    update_skills = st.text_area("Skills", value=volunteer['skills'])
+                    
+                    if st.button("Update Volunteer", use_container_width=True):
+                        try:
+                            update_volunteer(volunteer_id, update_name, update_email, update_skills)
+                            st.success("✅ Volunteer updated successfully")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ Update failed: {e}")
+                else:
+                    st.warning("Volunteer not found")
+            
+            with col2:
+                st.write("**Delete Volunteer**")
+                delete_id = st.number_input("Volunteer ID to Delete", min_value=1, value=1)
+                delete_vol = get_volunteer_by_id(delete_id)
+                
+                if delete_vol:
+                    st.write(f"Deleting: {delete_vol['name']} ({delete_vol['email']})")
+                    if st.button("Delete Volunteer", type="primary", use_container_width=True):
+                        try:
+                            delete_volunteer(delete_id)
+                            st.success("✅ Volunteer deleted successfully")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ Delete failed: {e}")
+                else:
+                    st.warning("Volunteer not found")
             
             # Skills Distribution
             st.subheader("Skills Distribution")
