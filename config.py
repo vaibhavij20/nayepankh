@@ -45,10 +45,6 @@ class Config:
     
     # API Keys
     GEMINI_API_KEY: str = get_secret("GEMINI_API_KEY", "")
-    RESEND_API_KEY: str = get_secret("RESEND_API_KEY", "")
-    
-    # Email configuration
-    EMAIL_FROM: str = get_secret("EMAIL_FROM", "onboarding@resend.dev")
     
     # Gemini configuration
     GEMINI_MODEL: str = "gemini-2.5-flash"
