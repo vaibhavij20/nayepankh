@@ -1,4 +1,4 @@
-# NayePankh AI Assistant - Python Dependencies
+# NayePankh AI Assistant - Minimal Dependencies for Streamlit Cloud
 
 # Core Framework
 streamlit==1.39.0
@@ -10,8 +10,8 @@ chromadb==1.5.9
 # Database
 pandas
 
+# Image Processing
+Pillow>=10.4.0,<11
+
 # Configuration
 python-dotenv==1.2.2
-
-# Utilities
-python-dateutil==2.9.0.post0
