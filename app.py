@@ -8,7 +8,7 @@ import sqlite3
 import pandas as pd
 import uuid
 
-import google.generativeai as genai
+import google.genai as genai
 
 from database.db import (
     init_db,
@@ -110,13 +110,14 @@ if not api_key:
 
 # Configure Gemini API
 try:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(Config.GEMINI_MODEL)
+    client = genai.Client(api_key=api_key)
+    model = Config.GEMINI_MODEL
     logger.info(f"Gemini API configured with model: {Config.GEMINI_MODEL}")
 except Exception as e:
     logger.error(f"Failed to configure Gemini API: {e}")
     st.sidebar.error(f"Failed to configure Gemini API: {e}")
     st.sidebar.warning("Chat functionality will be disabled. Please check your API key.")
+    client = None
     model = None
 
 # ==================================
@@ -329,8 +330,8 @@ query = st.chat_input("Ask NayePankh AI Assistant...")
 
 if query:
     try:
-        # Check if model is available
-        if model is None:
+        # Check if client is available
+        if client is None:
             st.error("Chat functionality is not available. Please configure a valid Gemini API key.")
             st.stop()
         
@@ -386,12 +387,12 @@ Responsibilities:
 User Question: {sanitized_query}
 """
                     
-                    response = model.generate_content(
-                        prompt,
-                        generation_config=genai.types.GenerationConfig(
+                    response = client.models.generate_content(
+                        model=model,
+                        contents=prompt,
+                        config=genai.GenerateContentConfig(
                             temperature=Config.GEMINI_TEMPERATURE,
-                            max_output_tokens=Config.GEMINI_MAX_TOKENS,
-                            timeout=Config.GEMINI_TIMEOUT
+                            max_output_tokens=Config.GEMINI_MAX_TOKENS
                         )
                     )
                     
