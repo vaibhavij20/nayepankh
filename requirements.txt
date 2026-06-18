@@ -1,16 +1,5 @@
-# NayePankh AI Assistant - Dependencies for Python 3.14
-
-# Core Framework
-streamlit==1.39.0
-
-# AI/ML
+streamlit>=1.41.1
 google-generativeai>=0.8.0
-
-# Database
 pandas
-
-# Image Processing
-pillow>=12.2.0"
-
-# Configuration
+Pillow
 python-dotenv==1.2.2
