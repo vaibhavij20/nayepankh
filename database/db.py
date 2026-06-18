@@ -21,6 +21,11 @@ def get_db_connection():
     """
     conn = None
     try:
+        # Ensure database directory exists
+        db_path = Config.DATABASE_PATH
+        db_dir = db_path.parent
+        db_dir.mkdir(parents=True, exist_ok=True)
+        
         conn = sqlite3.connect(
             Config.DATABASE_PATH,
             timeout=Config.DB_TIMEOUT

@@ -16,7 +16,7 @@ GEMINI_API_KEY = "your_gemini_api_key_here"
 
 # Email Service (Resend)
 RESEND_API_KEY = "your_resend_api_key_here"
-EMAIL_FROM = "NayePankh <vaibhavij20@gmail.com>"
+EMAIL_FROM = "onboarding@resend.dev"
 
 # Gemini Configuration
 GEMINI_MODEL = "gemini-2.5-flash"

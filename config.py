@@ -48,7 +48,7 @@ class Config:
     RESEND_API_KEY: str = get_secret("RESEND_API_KEY", "")
     
     # Email configuration
-    EMAIL_FROM: str = get_secret("EMAIL_FROM", "NayePankh <onboarding@resend.dev>")
+    EMAIL_FROM: str = get_secret("EMAIL_FROM", "onboarding@resend.dev")
     
     # Gemini configuration
     GEMINI_MODEL: str = "gemini-2.5-flash"
