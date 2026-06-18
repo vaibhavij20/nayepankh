@@ -1,11 +1,22 @@
 """
 Utils module for NayePankh AI Assistant.
-Contains utility functions for email services, validation, and other helper functions.
+Contains utility functions for validation and other helper functions.
 """
 
-from utils.email_service import send_welcome_email, send_admin_alert
+from utils.validators import (
+    validate_name,
+    validate_email,
+    validate_skills,
+    validate_query,
+    validate_mentor_skill,
+    sanitize_input
+)
 
 __all__ = [
-    "send_welcome_email",
-    "send_admin_alert",
+    "validate_name",
+    "validate_email",
+    "validate_skills",
+    "validate_query",
+    "validate_mentor_skill",
+    "sanitize_input",
 ]

@@ -31,10 +31,6 @@ from agents.report_agent import (
     generate_report
 )
 
-from utils.email_service import (
-    send_welcome_email
-)
-
 from memory_manager import (
     memory_manager
 )
@@ -116,6 +112,18 @@ try:
     client = genai.Client(api_key=api_key)
     model = Config.GEMINI_MODEL
     logger.info(f"Gemini API configured with model: {Config.GEMINI_MODEL}")
+    
+    # Test API connection
+    try:
+        test_response = client.models.generate_content(
+            model=model,
+            contents="Test connection"
+        )
+        st.sidebar.success("✅ Gemini API connected successfully")
+    except Exception as e:
+        st.sidebar.error(f"❌ Gemini API test failed: {e}")
+        logger.error(f"Gemini API test failed: {e}")
+        
 except Exception as e:
     logger.error(f"Failed to configure Gemini API: {e}")
     st.sidebar.error(f"Failed to configure Gemini API: {e}")
@@ -429,11 +437,7 @@ User Question: {sanitized_query}
                     
                     response = client.models.generate_content(
                         model=model,
-                        contents=prompt,
-                        generation_config=genai.GenerationConfig(
-                            temperature=Config.GEMINI_TEMPERATURE,
-                            max_output_tokens=Config.GEMINI_MAX_TOKENS
-                        )
+                        contents=prompt
                     )
                     
                     answer = response.text
