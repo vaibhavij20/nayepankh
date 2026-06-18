@@ -51,7 +51,7 @@ class Config:
     EMAIL_FROM: str = get_secret("EMAIL_FROM", "NayePankh <onboarding@resend.dev>")
     
     # Gemini configuration
-    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     GEMINI_TEMPERATURE: float = 0.7
     GEMINI_MAX_TOKENS: int = 1024
     GEMINI_TIMEOUT: int = 30

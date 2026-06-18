@@ -16,10 +16,10 @@ GEMINI_API_KEY = "your_gemini_api_key_here"
 
 # Email Service (Resend)
 RESEND_API_KEY = "your_resend_api_key_here"
-EMAIL_FROM = "NayePankh <onboarding@yourdomain.com>"
+EMAIL_FROM = "NayePankh <vaibhavij20@gmail.com>"
 
 # Gemini Configuration
-GEMINI_MODEL = "gemini-1.5-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 GEMINI_TEMPERATURE = "0.7"
 GEMINI_MAX_TOKENS = "1024"
 GEMINI_TIMEOUT = "60"
