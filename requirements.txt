@@ -1,0 +1,20 @@
+# NayePankh AI Assistant - Python Dependencies
+
+# Core Framework
+streamlit==1.58.0
+
+# AI/ML
+google-generativeai==0.8.6
+chromadb==1.5.9
+
+# Database
+pandas==3.0.3
+
+# Email
+resend==0.8.0
+
+# Configuration
+python-dotenv==1.2.2
+
+# Utilities
+python-dateutil==2.9.0.post0
